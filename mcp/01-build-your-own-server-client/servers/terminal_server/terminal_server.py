@@ -3,7 +3,7 @@ import subprocess
 from mcp.server.fastmcp import FastMCP
 
 mcp = FastMCP("terminal")
-DEFAULT_WORKSPACE = os.path.expanduser("~/Desktop/github/langgraph-ai/mcp/build-your-own-server-client/workspace")
+DEFAULT_WORKSPACE = os.path.expanduser("~/Desktop/github/langgraph-ai/mcp/01-build-your-own-server-client/workspace")
 
 @mcp.tool()
 async def run_command(command: str) -> str:
