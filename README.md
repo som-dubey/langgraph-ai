@@ -127,34 +127,107 @@ LANGCHAIN_PROJECT=your_project_name
 
 **Note**: The `LANGCHAIN_API_KEY` is required if you enable tracing with `LANGCHAIN_TRACING_V2=true`.
 
-## VS Code Integration
+## Jupyter Notebook Kernel Setup
 
-### Connecting Virtual Environment to VS Code
+### Adding Virtual Environment to Jupyter Kernel
 
-1. **Open VS Code** in your project directory:
+To use your UV virtual environment with Jupyter notebooks, you need to install ipykernel and register the environment as a kernel:
+
+1. **Activate your virtual environment**:
    ```bash
-   code .
+   source .venv/bin/activate  # macOS/Linux
+   # or
+   .venv\Scripts\activate     # Windows
    ```
 
-2. **Open Command Palette** (Cmd+Shift+P on macOS, Ctrl+Shift+P on Windows/Linux)
+2. **Install ipykernel in the virtual environment**:
+   ```bash
+   uv pip install ipykernel
+   ```
 
-3. **Select Python Interpreter**:
-   - Type "Python: Select Interpreter"
-   - Choose the interpreter from your virtual environment
-   - Path will typically be: `./.venv/bin/python` (macOS/Linux) or `./.venv/Scripts/python.exe` (Windows)
+3. **Register the virtual environment as a Jupyter kernel**:
+   ```bash
+   python -m ipykernel install --user --name=langgraph-ai --display-name="LangGraph AI"
+   ```
 
-4. **Verify Installation**:
-   - Open a Python file or Jupyter notebook
-   - Check the bottom-left corner of VS Code to confirm the correct interpreter is selected
+4. **Verify kernel installation**:
+   ```bash
+   jupyter kernelspec list
+   ```
 
-### Alternative Method (Manual Path)
+5. **Start Jupyter and select the kernel**:
+   ```bash
+   uv run jupyter lab
+   # or
+   uv run jupyter notebook
+   ```
 
-If the automatic detection doesn't work, you can manually specify the interpreter path:
+   When you open a notebook, you can select the "LangGraph AI" kernel from the kernel menu.
 
-1. Open Command Palette
-2. Type "Python: Select Interpreter"
-3. Choose "Enter interpreter path..."
-4. Enter the full path to your virtual environment's Python executable
+### Managing Kernels
+
+**List all available kernels**:
+```bash
+jupyter kernelspec list
+```
+
+**Remove a kernel** (if needed):
+```bash
+jupyter kernelspec remove langgraph-ai
+```
+
+**Alternative Method Using UV Run**:
+You can also run Jupyter directly with UV without installing the kernel:
+```bash
+uv run jupyter lab
+```
+This will automatically use the Python interpreter from your virtual environment.
+
+## VS Code Jupyter Kernel Selection
+
+### Selecting Kernel in VS Code
+
+When working with Jupyter notebooks in VS Code, you need to select the correct kernel to use your UV virtual environment:
+
+1. **Open a Jupyter notebook** in VS Code (`.ipynb` file)
+
+2. **Select the kernel**:
+   - Look at the top-right corner of the notebook
+   - Click on the kernel selector (it might show "Select Kernel" or the current kernel name)
+   - Choose "LangGraph AI" from the dropdown list
+
+3. **Alternative method**:
+   - Press `Cmd+Shift+P` (macOS) or `Ctrl+Shift+P` (Windows/Linux) to open Command Palette
+   - Type "Python: Select Notebook Kernel"
+   - Choose "LangGraph AI" from the available kernels
+
+4. **Verify kernel selection**:
+   - The kernel name should appear in the top-right corner of the notebook
+   - You should see "LangGraph AI" displayed
+
+### If Kernel is Not Visible
+
+If the "LangGraph AI" kernel doesn't appear in the list:
+
+1. **Refresh kernel list**:
+   - Open Command Palette (`Cmd+Shift+P` or `Ctrl+Shift+P`)
+   - Type "Python: Refresh Kernel List"
+   - Select this command
+
+2. **Restart VS Code**:
+   - Close VS Code completely
+   - Reopen VS Code and the notebook
+   - Try selecting the kernel again
+
+3. **Verify kernel installation**:
+   ```bash
+   jupyter kernelspec list
+   ```
+   Make sure "LangGraph AI" appears in the list. If not, refer to the "Managing Kernels" section above.
+
+### Using Python Interpreter Instead
+
+If you prefer to use the Python interpreter directly without creating a kernel, follow the steps in the "VS Code Integration" section above to select your virtual environment's Python interpreter. VS Code will automatically use the selected interpreter for notebooks.
 
 ## Running Projects
 
@@ -173,7 +246,7 @@ uv run pytest . -s -v
 
 ### Jupyter Notebooks
 
-For the tutorial notebooks, start Jupyter:
+For the tutorial notebooks, you can start Jupyter using the methods described in the "Jupyter Notebook Kernel Setup" section above. The recommended approach is to use the registered kernel:
 
 ```bash
 uv run jupyter lab
@@ -184,27 +257,6 @@ Or for classic Jupyter:
 ```bash
 uv run jupyter notebook
 ```
-
-## Key Features
-
-### Adaptive RAG System
-- Dynamic query analysis and routing
-- Self-reflection mechanisms for improved answer quality
-- Document relevance grading
-- Hallucination detection and prevention
-- Web search integration for knowledge gaps
-
-### MCP Development
-- Complete server and client implementations
-- Multiple server support with configuration management
-- Real-time communication via Server-Sent Events
-- Integration with LangChain ecosystem
-
-### Workflow Patterns
-- Orchestrator-worker architectures
-- Parallel processing implementations
-- Human-in-the-loop workflows
-- Evaluation and optimization patterns
 
 ## Contributing
 
